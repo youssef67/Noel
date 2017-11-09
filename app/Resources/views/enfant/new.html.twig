@@ -5,7 +5,34 @@
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+            <div id="cadeaux">
+                <input type="text" id="appbundle_enfant_cadeaux___name___nom" name="appbundle_enfant[cadeaux][__name__][nom]" required="required" maxlength="255" />
+                <button id="ajout">Ajouter</button>
+            </div>
+
+            <input type="submit" value="Create" />
+            <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    var max_fields      = 10;
+                    var wrapper         = $("#cadeaux");
+                    var add_button      = $("#ajout");
+
+                    var x = 1;
+                    $(add_button).click(function(e){
+                        e.preventDefault();
+                        if(x < max_fields){
+                            x++;
+                            $(wrapper).append('<div><input type="text" name="cadeaux[]"/><a href="#" id="supprimer">Supprimer</a></div>'); //add input box
+                        }
+                    });
+
+                    $(wrapper).on("click","#supprimer", function(e){
+                        e.preventDefault(); $(this).parent('div').remove(); x--;
+                    })
+                });
+            </script>
+
     {{ form_end(form) }}
 
     <ul>

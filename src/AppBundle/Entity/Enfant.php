@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Enfant
@@ -83,8 +84,14 @@ class Enfant
      */
     private $cadeaux;
 
-
-
+    /*
+     * Constructeur
+     */
+    public function __construct()
+    {
+        $this->dateDeCreation = new \DateTime();
+        $this->statutLivraison = 0;
+    }
 
     /**
      * Get id

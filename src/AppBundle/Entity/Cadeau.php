@@ -146,6 +146,8 @@ class Cadeau
     public function __construct()
     {
         $this->enfant = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->statutFabrication = 0;
+        $this->urlImage = 'url';
     }
 
     /**
