@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Cadeau</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cadeau.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ cadeau.nom }}</td>
+            </tr>
+            <tr>
+                <th>Urlimage</th>
+                <td>{{ cadeau.urlImage }}</td>
+            </tr>
+            <tr>
+                <th>Statutfabrication</th>
+                <td>{{ cadeau.statutFabrication }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('cadeau_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

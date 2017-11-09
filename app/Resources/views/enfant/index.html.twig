@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Enfants list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Datedecreation</th>
+                <th>Adresse</th>
+                <th>Codepostal</th>
+                <th>Ville</th>
+                <th>Genre</th>
+                <th>Statutlivraison</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for enfant in enfants %}
+            <tr>
+                <td><a href="{{ path('enfant_show', { 'id': enfant.id }) }}">{{ enfant.id }}</a></td>
+                <td>{{ enfant.nom }}</td>
+                <td>{{ enfant.prenom }}</td>
+                <td>{% if enfant.dateDeCreation %}{{ enfant.dateDeCreation|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ enfant.adresse }}</td>
+                <td>{{ enfant.codePostal }}</td>
+                <td>{{ enfant.ville }}</td>
+                <td>{{ enfant.genre }}</td>
+                <td>{{ enfant.statutLivraison }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('enfant_show', { 'id': enfant.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('enfant_edit', { 'id': enfant.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('enfant_new') }}">Create a new enfant</a>
+        </li>
+    </ul>
+{% endblock %}
