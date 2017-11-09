@@ -43,10 +43,19 @@ class Cadeau
     private $statutFabrication;
 
     /**
-     * @ORM\OneToMany(targetEntity="Enfant", mappedBy="cadeaux")
+     * @ORM\ManyToOne(targetEntity="Enfant", inversedBy="cadeaux")
      */
     private $enfant;
 
+
+    /* Custom Methods
+    *
+    */
+
+    public function __toString()
+    {
+        return $this->nom;
+    }
 
     /**
      * Get id
@@ -137,6 +146,8 @@ class Cadeau
     public function __construct()
     {
         $this->enfant = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->statutFabrication = 0;
+        $this->urlImage = 'url';
     }
 
     /**
@@ -172,4 +183,5 @@ class Cadeau
     {
         return $this->enfant;
     }
+
 }

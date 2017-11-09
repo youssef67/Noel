@@ -43,7 +43,7 @@ class Cadeau
     private $statutFabrication;
 
     /**
-     * @ORM\OneToMany(targetEntity="Enfant", mappedBy="cadeaux")
+     * @ORM\ManyToOne(targetEntity="Enfant", inversedBy="cadeaux")
      */
     private $enfant;
 
@@ -182,5 +182,20 @@ class Cadeau
     public function getEnfant()
     {
         return $this->enfant;
+    }
+
+
+    /**
+     * Set enfant
+     *
+     * @param \AppBundle\Entity\Enfant $enfant
+     *
+     * @return Cadeau
+     */
+    public function setEnfant(\AppBundle\Entity\Enfant $enfant = null)
+    {
+        $this->enfant = $enfant;
+
+        return $this;
     }
 }

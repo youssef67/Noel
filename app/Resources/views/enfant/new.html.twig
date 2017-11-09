@@ -5,33 +5,9 @@
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-            <div id="cadeaux">
-                <input type="text" id="appbundle_enfant_cadeaux___name___nom" name="appbundle_enfant[cadeaux][__name__][nom]" required="required" maxlength="255" />
-                <button id="ajout">Ajouter</button>
-            </div>
+        <a href="#" id="add_cadeau" class="btn btn-default">Ajouter un cadeau</a>
 
             <input type="submit" value="Create" />
-            <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    var max_fields      = 10;
-                    var wrapper         = $("#cadeaux");
-                    var add_button      = $("#ajout");
-
-                    var x = 1;
-                    $(add_button).click(function(e){
-                        e.preventDefault();
-                        if(x < max_fields){
-                            x++;
-                            $(wrapper).append('<div><input type="text" name="cadeaux[]"/><a href="#" id="supprimer">Supprimer</a></div>'); //add input box
-                        }
-                    });
-
-                    $(wrapper).on("click","#supprimer", function(e){
-                        e.preventDefault(); $(this).parent('div').remove(); x--;
-                    })
-                });
-            </script>
 
     {{ form_end(form) }}
 
@@ -40,4 +16,73 @@
             <a href="{{ path('enfant_index') }}">Back to the list</a>
         </li>
     </ul>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+            var $container = $('div#appbundle_enfant_cadeaux');
+
+            // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+            var index = $container.find(':input').length;
+
+            // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+            $('#add_cadeau').click(function(e) {
+                addCadeau($container);
+
+                e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                return false;
+            });
+
+            // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+            if (index == 0) {
+                addCadeau($container);
+            } else {
+                // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+                $container.children('div').each(function() {
+                    addDeleteLink($(this));
+                });
+            }
+
+            // La fonction qui ajoute un formulaire CadeauEnfantType
+            function addCadeau($container) {
+                // Dans le contenu de l'attribut « data-prototype », on remplace :
+                // - le texte "__name__label__" qu'il contient par le label du champ
+                // - le texte "__name__" qu'il contient par le numéro du champ
+                var template = $container.attr('data-prototype')
+                    .replace(/__name__label__/g, 'Cadeau n°' + (index+1))
+                    .replace(/__name__/g,        index)
+                ;
+
+                // On crée un objet jquery qui contient ce template
+                var $prototype = $(template);
+
+                // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+                addDeleteLink($prototype);
+
+                // On ajoute le prototype modifié à la fin de la balise <div>
+                $container.append($prototype);
+
+                // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                index++;
+            }
+
+            // La fonction qui ajoute un lien de suppression d'une catégorie
+            function addDeleteLink($prototype) {
+                // Création du lien
+                var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+                // Ajout du lien
+                $prototype.append($deleteLink);
+
+                // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+                $deleteLink.click(function(e) {
+                    $prototype.remove();
+
+                    e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                    return false;
+                });
+            }
+        });
+    </script>
 {% endblock %}

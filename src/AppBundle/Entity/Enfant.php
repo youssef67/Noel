@@ -80,12 +80,12 @@ class Enfant
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cadeau", inversedBy="enfant")
+     * @ORM\OneToMany(targetEntity="Cadeau", mappedBy="enfant")
      */
     private $cadeaux;
 
-    /*
-     * Constructeur
+    /**
+     * Constructor
      */
     public function __construct()
     {
@@ -317,5 +317,29 @@ class Enfant
     public function getCadeaux()
     {
         return $this->cadeaux;
+    }
+
+    /**
+     * Add cadeaux
+     *
+     * @param \AppBundle\Entity\Cadeau $cadeaux
+     *
+     * @return Enfant
+     */
+    public function addCadeaux(\AppBundle\Entity\Cadeau $cadeaux)
+    {
+        $this->cadeaux[] = $cadeaux;
+
+        return $this;
+    }
+
+    /**
+     * Remove cadeaux
+     *
+     * @param \AppBundle\Entity\Cadeau $cadeaux
+     */
+    public function removeCadeaux(\AppBundle\Entity\Cadeau $cadeaux)
+    {
+        $this->cadeaux->removeElement($cadeaux);
     }
 }

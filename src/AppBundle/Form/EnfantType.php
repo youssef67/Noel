@@ -24,7 +24,7 @@ class EnfantType extends AbstractType
             ->add('ville')
             ->add('genre', ChoiceType::class, array('choices' => array('Garçon' => 0, 'Fille' => 1)))
             ->add('cadeaux', CollectionType::class, array(
-                'entry_type' => CadeauType::class,
+                'entry_type' => CadeauEnfantType::class,
                 'allow_add' => true,
                 'allow_delete' => true
             ));
